@@ -173,6 +173,85 @@
     .btn-theme  { bottom: 105px; }
   }
 
+      /* --- 1. 彻底抹掉标题下的实色横条 --- */
+  section.content h1, 
+  section.content h2, 
+  section.content h3, 
+  section.content h4 {
+    border-bottom: none !important; /* 👈 就是这一行，让横条消失 */
+    padding-bottom: 5px !important;
+    margin-top: 20px !important;
+  }
+
+  /* --- 2. 找回消失的柔光 (针对 GPT 整理后的类名) --- */
+  .app-name, 
+  .sidebar ul li a, 
+  section.content h1, 
+  section.content h2, 
+  section.content h3,
+  .btn i, 
+  .sidebar-toggle i {
+    color: var(--theme-color) !important;
+    /* 增加发光半径，让它看起来更朦胧 */
+    text-shadow: 0 0 12px var(--accent-glow), 0 0 5px var(--accent-glow) !important;
+    transition: all 0.6s ease;
+  }
+
+  /* --- 3. 强制矢量图标显示 (解决方块问题) --- */
+  .btn i, .sidebar-toggle i {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    display: inline-block !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+
+  /* --- 4. 修正侧边栏按钮 (只留一根精致的线，不乱码) --- */
+  .sidebar-toggle span {
+    background-color: var(--theme-color) !important;
+    box-shadow: 0 0 8px var(--accent-glow) !important;
+    height: 2px !important;
+    width: 22px !important;
+    margin: 4px 0 !important;
+    display: block !important;
+  }
+
+      /* --- 1. 找回消失的三条杠 --- */
+  .sidebar-toggle span {
+    display: block !important; /* 确保显示 */
+    background-color: var(--theme-color, #b8d0a0) !important; /* 颜色跟随主题 */
+    box-shadow: 0 0 8px var(--accent-glow) !important; /* 发光效果 */
+    height: 2px !important;    /* 线条厚度 */
+    width: 22px !important;    /* 线条长度 */
+    margin: 4px auto !important; /* 线条间距 */
+    transition: all 0.5s ease;
+  }
+
+  /* --- 2. 隐藏多出来的矢量图标 (如果它干扰了三条杠) --- */
+  .sidebar-toggle i {
+    display: none !important; 
+  }
+
+  /* --- 3. 再次强化去除标题下的实色横条 --- */
+  section.content h1, 
+  section.content h2, 
+  section.content h3 {
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  /* --- 4. 确保矢量图标和柔光依然存在 --- */
+  .btn i {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    color: var(--theme-color) !important;
+    text-shadow: 0 0 12px var(--accent-glow) !important;
+  }
+
+
+
   </style>
 </head>
 
