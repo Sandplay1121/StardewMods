@@ -200,6 +200,42 @@
       transform: translateX(125px) !important; /* 200px侧边栏对应的偏移量 */
     }
 
+        /* 1. 强制所有圆饼按钮左对齐并移除默认偏移 */
+    .sidebar-toggle, .glass-btn {
+      left: 15px !important; /* 统一距离左侧边缘的距离 */
+      margin: 0 !important;
+      width: 40px !important;
+      height: 40px !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      position: fixed !important;
+    }
+
+    /* 2. 精准分配每一个按钮的高度位置，确保间距绝对相等 */
+    /* 假设我们从底部向上排，间距设为 12px */
+    
+    /* 最底下的：侧边栏开关 */
+    .sidebar-toggle {
+      bottom: 15px !important;
+    }
+
+    /* 中间的：背景切换按钮 (15底 + 40按钮 + 12间距 = 67) */
+    .glass-btn:nth-child(1) {
+      bottom: 67px !important;
+    }
+
+    /* 最上面的：模式切换按钮 (67底 + 40按钮 + 12间距 = 119) */
+    .glass-btn:nth-child(2) {
+      bottom: 119px !important;
+    }
+
+    /* 3. 清除旧的容器干扰 */
+    .custom-btns {
+      position: static !important; /* 让出控制权给上面的具体定位 */
+      display: contents !important; 
+    }
+
   </style>
 </head>
 <body>
