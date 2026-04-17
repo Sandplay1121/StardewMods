@@ -291,6 +291,14 @@
       display: contents !important; 
     }
 
+        /* 3. 绿色模式：修复三横线变红的问题 */
+    /* 强制让三横线回归清冷的绿色，而不是诡异的红色 */
+    .sidebar-toggle span {
+      background-color: var(--theme-color, #b8d0a0) !important;
+      transition: all 0.5s ease;
+    }
+
+
         /* --- 手机端自适应补丁 --- */
     @media (max-width: 768px) {
       /* 1. 隐藏侧边栏，让背景图完整显示 */
