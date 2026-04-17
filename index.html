@@ -90,6 +90,30 @@
       cursor: pointer;
     }
 
+    /* 彻底消灭叉号和肥美边框 */
+    .search input {
+      background: rgba(255, 255, 255, 0.05) !important; /* 极暗的半透明 */
+      border: 1px solid rgba(184, 208, 160, 0.2) !important; /* 淡淡的绿边 */
+      padding: 10px 15px !important;
+      border-radius: 20px !important; /* 让边框更圆润而不是肥大 */
+      box-shadow: none !important;
+    }
+
+    /* 强制抹除 webkit 内核自带的搜索清除按钮（叉号） */
+    .search input::-webkit-search-cancel-button,
+    .search input::-webkit-search-decoration,
+    .search input::-webkit-search-results-button,
+    .search input::-webkit-search-results-decoration {
+      display: none !important;
+      -webkit-appearance: none !important;
+    }
+
+    /* 去掉搜索框外层可能存在的肥大容器间距 */
+    .search {
+      padding: 20px 10px 10px !important; 
+      border-bottom: none !important; /* 去掉那条分割线 */
+    }
+
     .sidebar-toggle { left: 20px !important; bottom: 20px !important; padding: 0 !important; }
 
     .custom-btns {
