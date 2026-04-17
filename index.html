@@ -15,15 +15,8 @@
 
     :root {
       --theme-color: #b8d0a0; 
-      --sidebar-width: 240px;
-      --bg-image: url('1000154095.jpg'); /* 默认幽深绿意 */
-    }
-
-    /* 哥特模式的变量预留 */
-    .gothic-mode {
-      --theme-color: #9d71e2;
-      --bg-image: url('你的哥特图.jpg'); 
-      filter: sepia(0.2) contrast(1.1);
+      --sidebar-width: 260px;
+      --bg-image: url('1000154104.jpg'); /* 默认使用那张竹林底图 */
     }
 
     body {
@@ -32,80 +25,116 @@
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
-      transition: background-image 0.5s ease;
+      transition: background-image 0.8s ease;
+      margin: 0;
+      overflow-x: hidden;
     }
 
-    /* 1. 强制黑幕居中逻辑 */
+    /* 1. 纯净毛玻璃侧边栏 - 上下填满 */
+    .sidebar {
+      height: 100vh !important;
+      top: 0 !important;
+      width: var(--sidebar-width) !important;
+      background-color: rgba(15, 20, 15, 0.4) !important;
+      backdrop-filter: blur(20px) saturate(120%);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      position: fixed !important;
+    }
+
+    .app-name {
+      color: #d4af37 !important;
+      font-size: 22px;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    }
+
+    /* 2. 侧边栏搜索框 - 彻底抹除叉号 */
+    .search input {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid #5a7a58 !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .search input::-webkit-search-cancel-button { display: none !important; }
+
+    /* 3. 核心内容黑幕 - 强制居中且不乱跑 */
     section.content {
       background: rgba(20, 25, 20, 0.75) !important;
       padding: 40px !important;
       border-radius: 15px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.6);
       
-      /* 核心：不再随 Docsify 自动偏移 */
-      margin: 60px auto !important; 
-      width: 80% !important;
+      margin: 6vh auto !important; /* 顶部留白，左右自动居中 */
+      width: 85% !important;
       max-width: 900px !important;
       position: relative !important;
       left: 0 !important;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* 侧边栏打开时，整体稍微右移以留出空隙，但不破坏黑幕本身形状 */
-    body:not(.close) .content {
-      transform: translateX(120px); 
+    /* 侧边栏打开时，黑幕微调位置以平衡视觉 */
+    body:not(.close) section.content {
+      transform: translateX(130px); 
     }
 
-    /* 2. 预览图自动滤镜 */
+    /* 4. 图片预览滤镜 - 低饱和/浅色融合 */
     section.content img {
-      filter: grayscale(40%) brightness(90%) sepia(20%); /* 低饱和浅色滤镜 */
-      transition: filter 0.4s ease, transform 0.4s ease;
-      border-radius: 8px;
+      filter: grayscale(50%) brightness(85%) contrast(90%);
+      transition: all 0.5s ease;
+      border-radius: 10px;
     }
     section.content img:hover {
-      filter: grayscale(0%) brightness(100%) sepia(0%); /* 悬停恢复 */
-      transform: scale(1.02);
+      filter: grayscale(0%) brightness(100%) contrast(100%);
+      transform: scale(1.01);
     }
 
-    /* 3. 功能按钮组 (左下角) */
-    .custom-controls {
+    /* 5. 悬浮按钮组 (圆饼开关及其上方的功能键) */
+    .sidebar-toggle {
+      background: rgba(20, 30, 20, 0.7) !important;
+      backdrop-filter: blur(10px);
+      width: 50px !important;
+      height: 50px !important;
+      left: 20px !important;
+      bottom: 20px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+      border: 1px solid rgba(184, 208, 160, 0.2);
+    }
+
+    .custom-btns {
       position: fixed;
       left: 20px;
-      bottom: 80px; /* 在开关按钮上方 */
-      z-index: 1000;
+      bottom: 80px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+      z-index: 1000;
     }
 
-    .ctrl-btn {
-      width: 40px;
-      height: 40px;
+    .glass-btn {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: rgba(20, 30, 20, 0.8);
-      border: 1px solid var(--theme-color);
+      background: rgba(20, 30, 20, 0.6);
+      border: 1px solid rgba(184, 208, 160, 0.2);
       color: var(--theme-color);
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
       font-size: 18px;
-      backdrop-filter: blur(5px);
     }
-
-    /* 4. 抹除搜索框叉号 */
-    .search input::-webkit-search-cancel-button { display: none !important; }
-
-    /* 5. 侧边栏及其他样式 */
-    .sidebar { background: rgba(15, 20, 15, 0.5) !important; backdrop-filter: blur(15px); }
-    .sidebar-toggle { bottom: 20px !important; left: 20px !important; }
   </style>
 </head>
 <body class="forest-theme">
   <div id="app">正在编织森林幻想...</div>
 
-  <div class="custom-controls">
-    <button class="ctrl-btn" onclick="toggleBG()" title="切换背景">🖼️</button>
-    <button class="ctrl-btn" onclick="toggleGothic()" title="哥特模式">🌑</button>
+  <div class="custom-btns">
+    <div class="glass-btn" onclick="toggleBG()" title="切换背景">🌿</div>
+    <div class="glass-btn" onclick="toggleGothic()" title="主题切换">🌑</div>
   </div>
 
   <script>
@@ -113,22 +142,27 @@
       name: '档案室',
       loadSidebar: true,
       subMaxLevel: 2,
-    }
-
-    // 切换背景逻辑
-    let currentBG = 1;
-    function toggleBG() {
-      const body = document.body;
-      if (currentBG === 1) {
-        body.style.setProperty('--bg-image', "url('1000154096.jpg')");
-        currentBG = 2;
-      } else {
-        body.style.setProperty('--bg-image', "url('1000154095.jpg')");
-        currentBG = 1;
+      search: {
+        placeholder: '寻找遗忘的记录...',
+        noData: '林深处无此记载',
+        depth: 6
       }
     }
 
-    // 哥特模式逻辑（预留）
+    // 切换背景功能
+    let bgMode = 1;
+    function toggleBG() {
+      const body = document.body;
+      if (bgMode === 1) {
+        body.style.setProperty('--bg-image', "url('1000154096.jpg')");
+        bgMode = 2;
+      } else {
+        body.style.setProperty('--bg-image', "url('1000154104.jpg')");
+        bgMode = 1;
+      }
+    }
+
+    // 主题切换预留（哥特模式）
     function toggleGothic() {
       document.body.classList.toggle('gothic-mode');
     }
@@ -136,6 +170,7 @@
   
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
 </body>
 </html>
 
