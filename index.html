@@ -90,6 +90,28 @@
       cursor: pointer;
     }
 
+    /* 统一圆饼样式，加入 P2 同款阴影 */
+    .sidebar-toggle, .glass-btn {
+      background: rgba(25, 35, 25, 0.85) !important; /* 稍微加深底色，衬托发光 */
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(184, 208, 160, 0.3) !important;
+  
+    /* 重点：复合阴影 */
+      box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.5),      /* 外层深色投影 */
+        0 0 10px rgba(184, 208, 160, 0.2); /* 淡淡的内发光 */
+    
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* 触摸或鼠标悬停时，阴影扩散，增加互动感 */
+    .sidebar-toggle:hover, .glass-btn:hover {
+     box-shadow: 
+       0 6px 20px rgba(0, 0, 0, 0.6), 
+       0 0 15px rgba(184, 208, 160, 0.4);
+     transform: translateY(-2px); /* 轻轻浮起 */
+    }
+
     /* 彻底消灭叉号和肥美边框 */
     .search input {
       background: rgba(255, 255, 255, 0.05) !important; /* 极暗的半透明 */
