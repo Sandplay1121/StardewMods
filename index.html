@@ -319,6 +319,33 @@
       border: 1px solid var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
     }
 
+          /* --- 终极强制换色补丁 (只在学院模式激活) --- */
+
+    /* 1. 学院模式下的文字和图标 (强制变暗金) */
+    body.academia-mode .app-name,
+    body.academia-mode .sidebar ul li a,
+    body.academia-mode section.content h1,
+    body.academia-mode section.content h2,
+    body.academia-mode section.content h3,
+    body.academia-mode .sidebar-toggle i,
+    body.academia-mode .glass-btn i {
+      color: rgba(212, 190, 150, 0.6) !important; /* 淡淡的暗金 */
+      text-shadow: 0 0 10px rgba(212, 190, 150, 0.2) !important;
+      transition: all 0.6s ease !important;
+    }
+
+    /* 2. 学院模式下的按钮边框 (同步变暗金) */
+    body.academia-mode .sidebar-toggle,
+    body.academia-mode .glass-btn {
+      border: 1px solid rgba(212, 190, 150, 0.2) !important;
+    }
+
+    /* 3. 学院模式下的内容区色调 (变暖变暗，去绿) */
+    body.academia-mode section.content {
+      background: rgba(40, 30, 25, 0.85) !important; /* 暖褐色调 */
+      backdrop-filter: blur(15px) sepia(20%) !important; /* 增加一点复古金黄滤镜 */
+    }
+
     }
 
     }
