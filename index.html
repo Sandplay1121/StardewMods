@@ -1,509 +1,236 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <meta charset="UTF-8">
   <title>星露谷 Mod 档案库</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Docsify -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/dark.css">
-  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
-    @font-face {
-      font-family: 'MyCustomFont';
-      src: url('./fonts/MyFont.ttf') format('truetype');
+  /* ========================
+     1️⃣ 变量系统
+  ======================== */
+  :root {
+    --theme-color: #b8d0a0;
+    --accent-glow: rgba(184, 208, 160, 0.3);
+
+    --bg-dark: rgba(20, 25, 20, 0.75);
+    --bg-glass: rgba(25, 35, 25, 0.85);
+
+    --btn-size: 40px;
+    --sidebar-width: 230px;
+  }
+
+  body.academia-mode {
+    --theme-color: rgba(212, 190, 150, 0.7);
+    --accent-glow: rgba(212, 190, 150, 0.3);
+    --bg-dark: rgba(35, 25, 20, 0.6);
+  }
+
+  /* ========================
+     2️⃣ 基础
+  ======================== */
+  body {
+    margin: 0;
+    font-family: serif;
+    background: url('1000154104.jpg') center/cover fixed;
+    transition: background 0.8s ease;
+  }
+
+  /* ========================
+     3️⃣ 侧边栏
+  ======================== */
+  .sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(15, 20, 15, 0.4);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 15px 12px;
+  }
+
+  /* ========================
+     4️⃣ 内容区
+  ======================== */
+  section.content {
+    background: var(--bg-dark);
+    padding: 40px;
+    border-radius: 15px;
+    margin: 6vh auto;
+    width: 85%;
+    max-width: 900px;
+    transition: 0.4s;
+  }
+
+  body:not(.close) section.content {
+    transform: translateX(125px);
+  }
+
+  /* ========================
+     5️⃣ 文字风格
+  ======================== */
+  .app-name,
+  .sidebar a,
+  h1, h2, h3,
+  .glass-btn i {
+    color: var(--theme-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+    transition: 0.5s;
+  }
+
+  /* ========================
+     6️⃣ 图片
+  ======================== */
+  section.content img {
+    filter: grayscale(40%) brightness(85%);
+    border-radius: 8px;
+    transition: 0.4s;
+  }
+  section.content img:hover {
+    filter: none;
+    transform: scale(1.02);
+  }
+
+  /* ========================
+     7️⃣ 搜索框
+  ======================== */
+  .search input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(184,208,160,0.2);
+    border-radius: 20px;
+    padding: 8px 12px;
+    color: white;
+  }
+
+  .search input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  /* ========================
+     8️⃣ 按钮
+  ======================== */
+  .btn {
+    position: fixed;
+    left: 15px;
+    width: var(--btn-size);
+    height: var(--btn-size);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: var(--bg-glass);
+    border: 1px solid var(--accent-glow);
+
+    box-shadow:
+      0 4px 15px rgba(0,0,0,0.5),
+      0 0 10px var(--accent-glow);
+
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* 按钮位置 */
+  .btn-toggle { bottom: 15px; }
+  .btn-bg     { bottom: 67px; }
+  .btn-theme  { bottom: 119px; }
+
+  /* ========================
+     9️⃣ 手机适配
+  ======================== */
+  @media (max-width: 768px) {
+    .sidebar { left: -230px; }
+
+    body.close .sidebar {
+      left: 0;
+      width: 200px;
     }
 
-    :root {
-      --theme-color: #b8d0a0; 
-      --sidebar-width: 200px;
-      --btn-size: 40px; /* 统一圆饼大小 */
-    }
-
-    body {
-      font-family: 'MyCustomFont', serif !important;
-      background-image: url('1000154104.jpg'); /* 初始底图 */
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.8s ease;
-      margin: 0;
-    }
-
-    /* 1. 全填充毛玻璃侧边栏 */
-    .sidebar {
-      height: 100vh !important;
-      top: 0 !important;
-      background: rgba(15, 20, 15, 0.4) !important;
-      backdrop-filter: blur(20px) saturate(120%);
-      border-right: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    /* 2. 回归：幽幽发光的字体 */
-    .app-name, .sidebar ul li a, section.content h1, h2, h3 {
-      color: var(--theme-color) !important;
-      text-shadow: 0 0 8px rgba(184, 208, 160, 0.6) !important;
-    }
-
-    /* 3. 内容黑幕：绝对中心布局 */
     section.content {
-      background: rgba(20, 25, 20, 0.75) !important;
-      padding: 40px !important;
-      border-radius: 15px;
-      margin: 6vh auto !important;
-      width: 85% !important;
-      max-width: 900px !important;
-      position: relative !important;
-      left: 0 !important;
-      transition: transform 0.4s ease;
-    }
-    body:not(.close) section.content { transform: translateX(130px); }
-
-    /* 4. 图片预览：浅色融合滤镜 */
-    section.content img {
-      filter: grayscale(40%) brightness(85%) sepia(10%);
-      transition: 0.4s;
-      border-radius: 8px;
-    }
-    section.content img:hover { filter: none; transform: scale(1.02); }
-
-    /* 5. 搜索框：无叉号、深绿色调 */
-    .search input {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid #5a7a58 !important;
-      color: #fff !important;
-      border-radius: 8px;
-    }
-    .search input::-webkit-search-cancel-button { display: none !important; }
-
-    /* 6. 统一的圆饼控制组 */
-    .sidebar-toggle, .glass-btn {
-      background: rgba(20, 30, 20, 0.7) !important;
-      backdrop-filter: blur(10px);
-      width: var(--btn-size) !important;
-      height: var(--btn-size) !important;
-      border-radius: 50% !important;
-      border: 1px solid rgba(184, 208, 160, 0.2) !important;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      z-index: 1001;
-      cursor: pointer;
+      width: 95%;
+      margin: 10vh auto;
+      transform: none;
+      padding: 20px;
     }
 
-    /* 统一圆饼样式，加入 P2 同款阴影 */
-    .sidebar-toggle, .glass-btn {
-      background: rgba(25, 35, 25, 0.85) !important; /* 稍微加深底色，衬托发光 */
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(184, 208, 160, 0.3) !important;
-  
-    /* 重点：复合阴影 */
-      box-shadow: 
-        0 4px 15px rgba(0, 0, 0, 0.5),      /* 外层深色投影 */
-        0 0 10px rgba(184, 208, 160, 0.2); /* 淡淡的内发光 */
-    
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    .btn {
+      left: 10px;
+      width: 35px;
+      height: 35px;
     }
 
-    /* 触摸或鼠标悬停时，阴影扩散，增加互动感 */
-    .sidebar-toggle:hover, .glass-btn:hover {
-     box-shadow: 
-       0 6px 20px rgba(0, 0, 0, 0.6), 
-       0 0 15px rgba(184, 208, 160, 0.4);
-     transform: translateY(-2px); /* 轻轻浮起 */
-    }
-
-    /* 彻底消灭叉号和肥美边框 */
-    .search input {
-      background: rgba(255, 255, 255, 0.05) !important; /* 极暗的半透明 */
-      border: 1px solid rgba(184, 208, 160, 0.2) !important; /* 淡淡的绿边 */
-      padding: 10px 15px !important;
-      border-radius: 20px !important; /* 让边框更圆润而不是肥大 */
-      box-shadow: none !important;
-    }
-
-    /* 强制抹除 webkit 内核自带的搜索清除按钮（叉号） */
-    .search input::-webkit-search-cancel-button,
-    .search input::-webkit-search-decoration,
-    .search input::-webkit-search-results-button,
-    .search input::-webkit-search-results-decoration {
-      display: none !important;
-      -webkit-appearance: none !important;
-    }
-
-    /* 去掉搜索框外层可能存在的肥大容器间距 */
-    .search {
-      padding: 20px 10px 10px !important; 
-      border-bottom: none !important; /* 去掉那条分割线 */
-    }
-
-    .sidebar-toggle { left: 20px !important; bottom: 20px !important; padding: 0 !important; }
-
-    .custom-btns {
-      position: fixed;
-      left: 20px;
-      bottom: 85px; /* 开关按钮上方 */
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      z-index: 1000;
-    }
-    
-    .glass-btn { color: var(--theme-color); font-size: 20px; }
-
-        /* --- 终极精修补丁：瘦身、去叉、发光、加阴影 --- */
-
-    /* 1. 侧边栏整体瘦身 */
-    .sidebar {
-      width: 230px !important;
-      padding: 15px 12px !important;
-    }
-
-    /* 2. 搜索框去肥、去叉 */
-    .search {
-      padding: 15px 12px 5px !important;
-    }
-    .search input {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border: 1px solid rgba(184, 208, 160, 0.2) !important;
-      border-radius: 20px !important;
-      padding: 8px 12px !important;
-    }
-    /* 强制抹除叉号 */
-    .search input::-webkit-search-cancel-button {
-      -webkit-appearance: none !important;
-      display: none !important;
-    }
-
-    /* 3. 字体发光补强 */
-    .app-name, .sidebar ul li a, section.content h1, h2, h3 {
-      text-shadow: 0 0 8px rgba(184, 208, 160, 0.6) !important;
-    }
-
-    /* 4. 圆饼 40px 及 P2 同款立体阴影 */
-    .sidebar-toggle, .glass-btn {
-      width: 40px !important;
-      height: 40px !important;
-      left: 15px !important; 
-      bottom: 15px !important;
-      background: rgba(25, 35, 25, 0.85) !important;
-      border: 1px solid rgba(184, 208, 160, 0.3) !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(184, 208, 160, 0.2) !important;
-    }
-    .custom-btns {
-      left: 18px !important;
-      bottom: 65px !important;
-      gap: 12px !important;
-    }
-
-    /* 5. 内容黑幕对齐修正 */
-    body:not(.close) section.content {
-      transform: translateX(125px) !important; /* 200px侧边栏对应的偏移量 */
-    }
-
-                  /* --- 1. 学院古典模式专属颜色 (只在激活时生效) --- */
-    body.academia-mode {
-      --theme-color: rgba(212, 190, 150, 0.6) !important; /* 暗金 */
-      --accent-glow: rgba(212, 190, 150, 0.2) !important;
-    }
-    
-    /* 2. 学院模式下的内容区色调 (变暖变暗) */
-    body.academia-mode section.content {
-      background: rgba(40, 30, 25, 0.85) !important;
-      backdrop-filter: blur(15px) sepia(10%) !important;
-    }
-
-    /* 3. 强制让图标和文字跟随模式变色 */
-    /* 默认是绿色的，只有加了 .academia-mode 后才会变暗金 */
-    .app-name, .sidebar ul li a, .sidebar-toggle i, .glass-btn i, section.content h1, h2, h3 {
-      color: var(--theme-color, rgba(184, 208, 160, 0.7)) !important;
-      text-shadow: 0 0 10px var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
-      transition: all 0.6s ease !important;
-    }
-
-    /* 4. 按钮边框同步 */
-    .sidebar-toggle, .glass-btn {
-      border: 1px solid var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
-    }
-
-          /* --- 终极强制换色补丁 (只在学院模式激活) --- */
-
-    /* 1. 学院模式下的文字和图标 (强制变暗金) */
-    body.academia-mode .app-name,
-    body.academia-mode .sidebar ul li a,
-    body.academia-mode section.content h1,
-    body.academia-mode section.content h2,
-    body.academia-mode section.content h3,
-    body.academia-mode .sidebar-toggle i,
-    body.academia-mode .glass-btn i {
-      color: rgba(212, 190, 150, 0.6) !important; /* 淡淡的暗金 */
-      text-shadow: 0 0 10px rgba(212, 190, 150, 0.2) !important;
-      transition: all 0.6s ease !important;
-    }
-
-    /* 2. 学院模式下的按钮边框 (同步变暗金) */
-    body.academia-mode .sidebar-toggle,
-    body.academia-mode .glass-btn {
-      border: 1px solid rgba(212, 190, 150, 0.2) !important;
-    }
-
-    /* 3. 学院模式下的内容区色调 (变暖变暗，去绿) */
-    body.academia-mode section.content {
-      background: rgba(40, 30, 25, 0.85) !important; /* 暖褐色调 */
-      backdrop-filter: blur(15px) sepia(20%) !important; /* 增加一点复古金黄滤镜 */
-    }
-
-
-
-        /* 1. 强制所有圆饼按钮左对齐并移除默认偏移 */
-    .sidebar-toggle, .glass-btn {
-      left: 15px !important; /* 统一距离左侧边缘的距离 */
-      margin: 0 !important;
-      width: 40px !important;
-      height: 40px !important;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      position: fixed !important;
-    }
-
-    /* 2. 精准分配每一个按钮的高度位置，确保间距绝对相等 */
-    /* 假设我们从底部向上排，间距设为 12px */
-    
-    /* 最底下的：侧边栏开关 */
-    .sidebar-toggle {
-      bottom: 15px !important;
-    }
-
-    /* 中间的：背景切换按钮 (15底 + 40按钮 + 12间距 = 67) */
-    .glass-btn:nth-child(1) {
-      bottom: 67px !important;
-    }
-
-    /* 最上面的：模式切换按钮 (67底 + 40按钮 + 12间距 = 119) */
-    .glass-btn:nth-child(2) {
-      bottom: 119px !important;
-    }
-
-    /* 3. 清除旧的容器干扰 */
-    .custom-btns {
-      position: static !important; /* 让出控制权给上面的具体定位 */
-      display: contents !important; 
-    }
-
-        /* --- 手机端自适应补丁 --- */
-    @media (max-width: 768px) {
-      /* 1. 隐藏侧边栏，让背景图完整显示 */
-      .sidebar {
-        left: -230px !important; /* 默认收起 */
-        transition: left 0.3s ease;
-      }
-      
-      /* 2. 当侧边栏展开时（Docsify 逻辑） */
-      body.close .sidebar {
-        left: 0 !important;
-        width: 200px !important; /* 手机端稍微窄一点更和谐 */
-      }
-
-      /* 3. 主内容区全屏化，不再偏移 */
-      section.content {
-        width: 95% !important;
-        margin: 10vh auto !important;
-        transform: none !important; /* 抹除电脑端的偏移 */
-        left: 0 !important;
-        padding: 20px !important;
-      }
-
-      /* 4. 手机端圆饼对齐修正 */
-      .sidebar-toggle, .glass-btn {
-        left: 10px !important; /* 手机边缘留白小一点 */
-        width: 35px !important; /* 圆饼稍微缩小一点，更精致 */
-        height: 35px !important;
-      }
-
-      /* 5. 调整垂直间距 (35px按钮 + 10px间距) */
-      .sidebar-toggle { bottom: 15px !important; }
-      .glass-btn:nth-child(1) { bottom: 60px !important; }
-      .glass-btn:nth-child(2) { bottom: 105px !important; }
-
-      /* 6. 修正标题字号，防止溢出 */
-      section.content h1 {
-        font-size: 1.5rem !important;
-      }
-
-      /* 7. 背景适配 */
-      body {
-        /* 1. 关键：不随页面滚动，且背景大小设为 auto 或 contain 保持原比例 */
-        background-attachment: fixed !important;
-        background-size: auto 100% !important; /* 高度撑满，宽度根据比例自动裁剪 */
-        
-        /* 2. 核心：强制背景图横向居中，纵向也居中 */
-        background-position: center center !important;
-        background-repeat: no-repeat !important;
-      }
-
-      /* 针对手机端黑幕容器的透明度微调，让背景中心透出来 */
-      section.content {
-        background: rgba(20, 25, 20, 0.8) !important; /* 稍微调透一点点 */
-        backdrop-filter: blur(8px) !important;
-      }
-
-
-
-    }
-
-    }
-
-
-        /* --- 档案室终极调优补丁 --- */
-
-    /* 1. 学院模式：让黑幕更通透、更轻盈 */
-    body.academia-mode section.content {
-      /* 最后一个数字 0.6 代表透明度，越小越透 */
-      background: rgba(35, 25, 20, 0.6) !important; 
-      backdrop-filter: blur(12px) sepia(20%) !important; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
-    }
-
-    /* 2. 学院模式：强制换色（保持暗金） */
-    body.academia-mode .app-name,
-    body.academia-mode .sidebar ul li a,
-    body.academia-mode section.content h1,
-    body.academia-mode section.content h2,
-    body.academia-mode section.content h3,
-    body.academia-mode .sidebar-toggle i,
-    body.academia-mode .glass-btn i,
-    body.academia-mode .sidebar-toggle span { /* 👈 把三横线也变色 */
-      color: rgba(212, 190, 150, 0.7) !important; 
-      background-color: rgba(212, 190, 150, 0.7) !important; /* 针对三横线的背景色 */
-      text-shadow: 0 0 10px rgba(212, 190, 150, 0.3) !important;
-    }
-
-    /* 3. 绿色模式：修复三横线变红的问题 */
-    /* 强制让三横线回归清冷的绿色，而不是诡异的红色 */
-    .sidebar-toggle span {
-      background-color: var(--theme-color, #b8d0a0) !important;
-      transition: all 0.5s ease;
-    }
-
-    /* 4. 按钮边框同步调淡 */
-    body.academia-mode .sidebar-toggle,
-    body.academia-mode .glass-btn {
-      border: 1px solid rgba(212, 190, 150, 0.2) !important;
-    }
-
-        /* --- 1. 强制找回矢量图标 (如果显示方块，请检查联网) --- */
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
-    /* --- 2. 找回消失的柔光效果 & 修正图标颜色 --- */
-    .app-name, .sidebar ul li a, .glass-btn i, .sidebar-toggle i, 
-    section.content h1, section.content h2, section.content h3 {
-      /* 强制应用发光变量，如果没有定义则使用默认绿 */
-      color: var(--theme-color, #b8d0a0) !important;
-      text-shadow: 0 0 10px var(--accent-glow, rgba(184, 208, 160, 0.4)) !important;
-      transition: all 0.5s ease;
-    }
-
-    /* --- 3. 让学院模式黑幕变透 (0.4 是透明度，数值越小越透) --- */
-    body.academia-mode section.content {
-      background: rgba(30, 25, 20, 0.45) !important; 
-      backdrop-filter: blur(12px) sepia(20%) !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
-    }
-
-    /* --- 4. 解决那两条多出来的横线 --- */
-    /* 我们只保留第一条横线变色，隐藏其他两条，这样“三”就不会乱码 */
-    .sidebar-toggle span:nth-child(n+2) {
-      display: none !important;
-    }
-    .sidebar-toggle span:first-child {
-      background-color: var(--theme-color, #b8d0a0) !important;
-      box-shadow: 0 0 8px var(--accent-glow) !important;
-      height: 2px !important;
-      width: 20px !important;
-    }
-
-    /* --- 5. 确保圆饼图标居中且不显示方块 --- */
-    .glass-btn i, .sidebar-toggle i {
-      font-family: "Font Awesome 6 Free" !important;
-      font-weight: 900 !important;
-      font-style: normal !important;
-    }
-
-
-
+    .btn-toggle { bottom: 15px; }
+    .btn-bg     { bottom: 60px; }
+    .btn-theme  { bottom: 105px; }
+  }
 
   </style>
 </head>
+
 <body>
-  <div id="app">正在编织森林幻想...</div>
 
-  <div class="custom-btns">
-    <div class="glass-btn" onclick="toggleBG()">🌿</div>
-    <div class="glass-btn" onclick="toggleGothic()">🌑</div>
-  </div>
+<div id="app">正在编织森林幻想...</div>
 
-  <script>
-    window.$docsify = {
-      name: '档案室',
-      loadSidebar: true,
-      subMaxLevel: 2,
-      search: { placeholder: '寻找遗忘的记录...', noData: '无此记载' }
-    }
+<!-- 按钮 -->
+<div class="btn btn-bg" data-role="bg-btn"></div>
+<div class="btn btn-theme" data-role="theme-btn"></div>
 
-      // 背景仓库：默认绿色库 & 学院棕色库
-  const collections = {
-    default: {
-      bgs: ['1000154095.jpg', '1000154096.jpg'], // 初始绿色的两张背景
-      icon: 'fa-leaf' 
-    },
-    academia: {
-      bgs: ['1000154119.jpg', '1000154120.jpg'], // 你选出的古典两张背景
-      icon: 'fa-book'
-    }
-  };
+<script>
+window.$docsify = {
+  name: '档案室',
+  loadSidebar: true,
+  subMaxLevel: 2,
+  search: { placeholder: '寻找遗忘的记录...', noData: '无此记载' }
+}
 
-  let isAcademia = false; 
-  let bgIndex = 0;        
-
-  // 初始化：让按钮显示矢量图标而不是 Emoji
-  window.addEventListener('DOMContentLoaded', () => {
-    updateUI();
-  });
-
-  // 按钮 1：背景切换 (🌿 / 📘)
-  function toggleBG() {
-    bgIndex = (bgIndex === 0) ? 1 : 0;
-    const mode = isAcademia ? 'academia' : 'default';
-    document.body.style.backgroundImage = `url('${collections[mode].bgs[bgIndex]}')`;
+/* ========================
+   数据
+======================== */
+const collections = {
+  default: {
+    bgs: ['1000154095.jpg', '1000154096.jpg'],
+    icon: 'fa-leaf'
+  },
+  academia: {
+    bgs: ['1000154119.jpg', '1000154120.jpg'],
+    icon: 'fa-book'
   }
+};
 
-  // 按钮 2：主题模式切换 (📖)
-  function toggleGothic() {
-    isAcademia = !isAcademia;
-    bgIndex = 0; // 切换主题时，默认回到该主题的第一张背景
-    document.body.classList.toggle('academia-mode');
-    
-    const mode = isAcademia ? 'academia' : 'default';
-    document.body.style.backgroundImage = `url('${collections[mode].bgs[bgIndex]}')`;
-    
-    updateUI(); // 切换图标和发光颜色
-  }
+let isAcademia = false;
+let bgIndex = 0;
 
-  // 更新 UI 细节
-  function updateUI() {
-    const mode = isAcademia ? 'academia' : 'default';
-    const bgBtn = document.querySelector('.glass-btn:nth-child(1)'); 
-    const themeBtn = document.querySelector('.glass-btn:nth-child(2)'); 
+/* ========================
+   DOM
+======================== */
+const bgBtn = document.querySelector('[data-role="bg-btn"]');
+const themeBtn = document.querySelector('[data-role="theme-btn"]');
 
-    // 设置图标：背景切换图标根据模式变，主题切换图标固定为书本
-    if (bgBtn) bgBtn.innerHTML = `<i class="fas ${collections[mode].icon}"></i>`;
-    if (themeBtn) themeBtn.innerHTML = `<i class="fas fa-book-open"></i>`;
-  }
-    
-  </script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-</body>
-</html>
+/* ========================
+   功能
+======================== */
+function updateUI() {
+  const mode = isAcademia ? 'academia' : 'default';
 
+  bgBtn.innerHTML = `<i class="fas ${collections[mode].icon}"></i>`;
+  themeBtn.innerHTML = `<i class="fas fa-book-open"></i>`;
+}
+
+function toggleBG() {
+  bgIndex = (bgIndex + 1) % 2;
+  const mode = isAcademia ? 'academia' : 'default';
+  document.body.style.backgroundImage =
+    `url('${collections[mode].bgs[bgIndex]}')`;
+}
+
+function toggleTheme() {
+  is
