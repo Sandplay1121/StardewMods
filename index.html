@@ -11,127 +11,131 @@
     @font-face {
       font-family: 'MyCustomFont';
       src: url('./fonts/MyFont.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
     }
 
     :root {
       --theme-color: #b8d0a0; 
-      --base-background: transparent; 
-      --sidebar-width: 240px; 
+      --sidebar-width: 240px;
+      --bg-image: url('1000154095.jpg'); /* 默认幽深绿意 */
+    }
+
+    /* 哥特模式的变量预留 */
+    .gothic-mode {
+      --theme-color: #9d71e2;
+      --bg-image: url('你的哥特图.jpg'); 
+      filter: sepia(0.2) contrast(1.1);
     }
 
     body {
       font-family: 'MyCustomFont', serif !important;
-      background-image: url('1000154096.jpg'); /* 使用了飞鸟这张，你也可以换回 1000154095.jpg */
+      background-image: var(--bg-image);
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
-      background-color: #1a1a1a;
-      color: #e0eadd;
-      text-shadow: 0 0 5px rgba(125, 163, 122, 0.4);
-      margin: 0;
-      overflow-x: hidden;
+      transition: background-image 0.5s ease;
     }
 
-    /* 1. 侧边栏：磨砂玻璃 */
-    .sidebar {
-      width: var(--sidebar-width);
-      background-color: rgba(15, 20, 15, 0.5) !important;
-      backdrop-filter: blur(15px);
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .app-name {
-      color: #d4af37 !important;
-      font-weight: bold;
-      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-    }
-
-    /* 2. 左下角悬浮开关按钮 */
-    .sidebar-toggle {
-      background: rgba(20, 30, 20, 0.8) !important;
-      backdrop-filter: blur(5px);
-      width: 50px !important;
-      height: 50px !important;
-      left: 20px !important;
-      bottom: 20px !important;
-      border-radius: 50% !important; 
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      border: 1px solid rgba(184, 208, 160, 0.3);
-    }
-    
-    .sidebar-toggle span {
-      background-color: #b8d0a0 !important;
-      width: 22px !important;
-      height: 2px !important;
-      margin: 4px 0 !important;
-    }
-
-    /* 3. 内容区：自适应居中逻辑 */
+    /* 1. 强制黑幕居中逻辑 */
     section.content {
-      position: relative;
-      background: rgba(20, 25, 20, 0.75); 
-      padding: 40px;
+      background: rgba(20, 25, 20, 0.75) !important;
+      padding: 40px !important;
       border-radius: 15px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.6);
       
-      /* 强制居中 */
-      margin-left: auto !important;
-      margin-right: auto !important;
-      margin-top: 5vh !important;
-      width: 85% !important; 
-      max-width: 900px;
-      
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      /* 核心：不再随 Docsify 自动偏移 */
+      margin: 60px auto !important; 
+      width: 80% !important;
+      max-width: 900px !important;
+      position: relative !important;
+      left: 0 !important;
     }
 
-    /* 侧边栏打开时，整体向右偏移一点，保持视觉平衡 */
-    body:not(.close) section.content {
-      transform: translateX(calc(var(--sidebar-width) / 2.5));
+    /* 侧边栏打开时，整体稍微右移以留出空隙，但不破坏黑幕本身形状 */
+    body:not(.close) .content {
+      transform: translateX(120px); 
     }
 
-    /* 4. 搜索框美化 + 抹除叉号 */
-    .search input {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid #5a7a58 !important;
-      color: #fff !important;
-      border-radius: 10px;
-      padding-right: 10px !important;
+    /* 2. 预览图自动滤镜 */
+    section.content img {
+      filter: grayscale(40%) brightness(90%) sepia(20%); /* 低饱和浅色滤镜 */
+      transition: filter 0.4s ease, transform 0.4s ease;
+      border-radius: 8px;
+    }
+    section.content img:hover {
+      filter: grayscale(0%) brightness(100%) sepia(0%); /* 悬停恢复 */
+      transform: scale(1.02);
     }
 
-    /* 抹除叉号核心代码 */
-    .search input::-webkit-search-cancel-button {
-      display: none !important;
-      -webkit-appearance: none;
+    /* 3. 功能按钮组 (左下角) */
+    .custom-controls {
+      position: fixed;
+      left: 20px;
+      bottom: 80px; /* 在开关按钮上方 */
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    h1, h2, h3 {
-      font-family: 'MyCustomFont', serif !important;
-      color: #b8d0a0 !important;
+    .ctrl-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(20, 30, 20, 0.8);
+      border: 1px solid var(--theme-color);
+      color: var(--theme-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      backdrop-filter: blur(5px);
     }
+
+    /* 4. 抹除搜索框叉号 */
+    .search input::-webkit-search-cancel-button { display: none !important; }
+
+    /* 5. 侧边栏及其他样式 */
+    .sidebar { background: rgba(15, 20, 15, 0.5) !important; backdrop-filter: blur(15px); }
+    .sidebar-toggle { bottom: 20px !important; left: 20px !important; }
   </style>
 </head>
-<body>
-  <div id="app">森林档案录入中...</div>
+<body class="forest-theme">
+  <div id="app">正在编织森林幻想...</div>
+
+  <div class="custom-controls">
+    <button class="ctrl-btn" onclick="toggleBG()" title="切换背景">🖼️</button>
+    <button class="ctrl-btn" onclick="toggleGothic()" title="哥特模式">🌑</button>
+  </div>
+
   <script>
     window.$docsify = {
       name: '档案室',
       loadSidebar: true,
       subMaxLevel: 2,
-      search: {
-        placeholder: '寻找遗忘的记录...',
-        noData: '林深处无此记载',
-        depth: 6
+    }
+
+    // 切换背景逻辑
+    let currentBG = 1;
+    function toggleBG() {
+      const body = document.body;
+      if (currentBG === 1) {
+        body.style.setProperty('--bg-image', "url('1000154096.jpg')");
+        currentBG = 2;
+      } else {
+        body.style.setProperty('--bg-image', "url('1000154095.jpg')");
+        currentBG = 1;
       }
     }
+
+    // 哥特模式逻辑（预留）
+    function toggleGothic() {
+      document.body.classList.toggle('gothic-mode');
+    }
   </script>
+  
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
 </body>
 </html>
 
