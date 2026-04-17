@@ -291,6 +291,44 @@
       display: contents !important; 
     }
 
+      /* 强制图标背后透明，只显示矢量线条 */
+  .glass-btn i, .sidebar-toggle span {
+    background: transparent !important; 
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+        /* --- 1. 彻底抹掉标题下的实色横条 --- */
+    section.content h1, section.content h2, section.content h3 {
+      border-bottom: none !important;
+      text-shadow: 0 0 10px var(--accent-glow) !important;
+    }
+
+    /* --- 2. 找回侧边栏“三条杠” --- */
+    .sidebar-toggle span {
+      background-color: var(--theme-color, #b8d0a0) !important;
+      box-shadow: 0 0 8px var(--accent-glow) !important;
+      height: 2px !important; 
+      width: 22px !important;
+      margin: 4px auto !important;
+      display: block !important; /* 强制显示三根线 */
+    }
+
+    /* --- 3. 学院模式：强制变透 (0.45 黄金透明度) --- */
+    body.academia-mode section.content {
+      background: rgba(35, 25, 20, 0.45) !important; 
+      backdrop-filter: blur(12px) sepia(20%) !important;
+    }
+
+    /* --- 4. 强制找回矢量图标柔光 --- */
+    .glass-btn i, .sidebar-toggle i {
+      color: var(--theme-color) !important;
+      text-shadow: 0 0 10px var(--accent-glow) !important;
+    }
+
+
+
         /* --- 手机端自适应补丁 --- */
     @media (max-width: 768px) {
       /* 1. 隐藏侧边栏，让背景图完整显示 */
