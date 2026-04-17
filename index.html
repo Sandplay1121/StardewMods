@@ -13,7 +13,7 @@
       font-family: 'MyCustomFont';
       src: url('./fonts/MyFont.ttf') format('truetype');
     }
-9
+
     :root {
       --theme-color: #b8d0a0; 
       --sidebar-width: 200px;
@@ -353,6 +353,45 @@
     }
 
     }
+
+
+        /* --- 档案室终极调优补丁 --- */
+
+    /* 1. 学院模式：让黑幕更通透、更轻盈 */
+    body.academia-mode section.content {
+      /* 最后一个数字 0.6 代表透明度，越小越透 */
+      background: rgba(35, 25, 20, 0.6) !important; 
+      backdrop-filter: blur(12px) sepia(20%) !important; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    }
+
+    /* 2. 学院模式：强制换色（保持暗金） */
+    body.academia-mode .app-name,
+    body.academia-mode .sidebar ul li a,
+    body.academia-mode section.content h1,
+    body.academia-mode section.content h2,
+    body.academia-mode section.content h3,
+    body.academia-mode .sidebar-toggle i,
+    body.academia-mode .glass-btn i,
+    body.academia-mode .sidebar-toggle span { /* 👈 把三横线也变色 */
+      color: rgba(212, 190, 150, 0.7) !important; 
+      background-color: rgba(212, 190, 150, 0.7) !important; /* 针对三横线的背景色 */
+      text-shadow: 0 0 10px rgba(212, 190, 150, 0.3) !important;
+    }
+
+    /* 3. 绿色模式：修复三横线变红的问题 */
+    /* 强制让三横线回归清冷的绿色，而不是诡异的红色 */
+    .sidebar-toggle span {
+      background-color: var(--theme-color, #b8d0a0) !important;
+      transition: all 0.5s ease;
+    }
+
+    /* 4. 按钮边框同步调淡 */
+    body.academia-mode .sidebar-toggle,
+    body.academia-mode .glass-btn {
+      border: 1px solid rgba(212, 190, 150, 0.2) !important;
+    }
+
 
 
   </style>
