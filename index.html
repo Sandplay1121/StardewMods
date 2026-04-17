@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>我的星露谷Mod仓库</title>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+  <style>
+    /* 这里是给 R18 内容准备的“遮罩”样式 */
+    .nsfw-content {
+      filter: blur(10px); /* 默认模糊 */
+      transition: filter 0.3s;
+      border: 2px dashed #ff4444;
+      padding: 10px;
+    }
+    .nsfw-content:hover {
+      filter: blur(0); /* 鼠标放上去才清晰，或者你可以改成点击显示 */
+    }
+    .nsfw-warning {
+      color: #ff4444;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">加载中...</div>
+  <script>
+    window.$docsify = {
+      name: '星露谷Mod整理',
+      loadSidebar: true, // 记得要建一个 _sidebar.md 文件
+      subMaxLevel: 2,
+      // 搜索功能配置
+      search: {
+        placeholder: '搜索 Mod、标签、风格...',
+        noData: '找不到结果',
+        depth: 6
+      }
+    }
+  </script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+</body>
+</html>
