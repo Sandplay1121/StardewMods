@@ -18,7 +18,7 @@
     :root {
       --theme-color: #b8d0a0; 
       --base-background: transparent; 
-      --sidebar-width: 220px; 
+      --sidebar-width: 240px; 
     }
 
     body {
@@ -31,14 +31,16 @@
       color: #e0eadd;
       text-shadow: 0 0 5px rgba(125, 163, 122, 0.4);
       margin: 0;
+      overflow-x: hidden;
     }
 
-    /* 1. 侧边栏样式 */
+    /* 1. 侧边栏：磨砂玻璃 */
     .sidebar {
       width: var(--sidebar-width);
-      background-color: rgba(15, 20, 15, 0.4) !important;
-      backdrop-filter: blur(10px);
+      background-color: rgba(15, 20, 15, 0.5) !important;
+      backdrop-filter: blur(15px);
       border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
     }
 
     .app-name {
@@ -47,53 +49,68 @@
       text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
 
-    /* 2. 修复开关按钮 */
+    /* 2. 强制显示开关按钮 */
     .sidebar-toggle {
-      background: rgba(15, 20, 15, 0.6) !important;
+      background: rgba(20, 30, 20, 0.8) !important; /* 加深底色确保看见 */
       backdrop-filter: blur(5px);
-      width: 44px;
-      padding: 10px 0;
-      left: 0;
-      bottom: 0;
-      position: fixed;
-      z-index: 20;
+      width: 50px !important;
+      height: 50px !important;
+      left: 10px !important;
+      bottom: 10px !important;
+      border-radius: 50% !important; /* 圆形按钮更像移动端操作 */
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    
+    .sidebar-toggle span {
+      background-color: #b8d0a0 !important; /* 杠杠的颜色 */
+      width: 20px !important;
     }
 
-    /* 3. 【核心修正】内容区域自动适配 */
+    /* 3. 内容区：自适应居中逻辑 */
     section.content {
       position: relative;
-      background: rgba(20, 25, 20, 0.7); 
-      padding: 30px;
-      border-radius: 12px;
-      /* 这里的计算让它在侧边栏打开时自动避开 */
-      margin: 20px 40px 20px calc(var(--sidebar-width) + 40px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: all 0.3s ease; /* 增加平滑过渡动画 */
-      max-width: 1000px; /* 限制最大宽度，防止横屏下撑得太开 */
+      background: rgba(20, 25, 20, 0.75); 
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      
+      /* 核心：自动外边距 */
+      margin: 40px auto !important; 
+      width: 85% !important; 
+      max-width: 900px;
+      
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* 当侧边栏关闭时，内容区左右间距恢复对称 */
-    body.close section.content {
-      margin: 20px auto; /* 居中 */
-      max-width: 900px;
+    /* 修正 Docsify 默认的布局偏移 */
+    .content {
+      left: 0 !important;
+      right: 0 !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* 当侧边栏打开时，给内容区留出左侧空间，但保持它在剩余空间的中心 */
+    body:not(.close) section.content {
+      transform: translateX(calc(var(--sidebar-width) / 2));
     }
 
     h1, h2, h3 {
       font-family: 'MyCustomFont', serif !important;
       color: #b8d0a0 !important;
-      text-shadow: 0 0 8px rgba(184, 208, 160, 0.7), 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
     }
 
+    /* 搜索框美化 */
     .search input {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border: 1px solid #4a6348 !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid #5a7a58 !important;
       color: #fff !important;
-      border-radius: 20px;
-    }
-
-    /* 隐藏 Docsify 默认的折叠按钮背景，防止重复 */
-    body.close .sidebar-toggle {
-      width: 44px;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -105,8 +122,8 @@
       loadSidebar: true,
       subMaxLevel: 2,
       search: {
-        placeholder: '搜索档案...',
-        noData: '林深处查无此项',
+        placeholder: '寻找遗忘的记录...',
+        noData: '林深处无此记载',
         depth: 6
       }
     }
