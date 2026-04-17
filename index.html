@@ -236,6 +236,67 @@
       display: contents !important; 
     }
 
+        /* --- 手机端自适应补丁 --- */
+    @media (max-width: 768px) {
+      /* 1. 隐藏侧边栏，让背景图完整显示 */
+      .sidebar {
+        left: -230px !important; /* 默认收起 */
+        transition: left 0.3s ease;
+      }
+      
+      /* 2. 当侧边栏展开时（Docsify 逻辑） */
+      body.close .sidebar {
+        left: 0 !important;
+        width: 200px !important; /* 手机端稍微窄一点更和谐 */
+      }
+
+      /* 3. 主内容区全屏化，不再偏移 */
+      section.content {
+        width: 95% !important;
+        margin: 10vh auto !important;
+        transform: none !important; /* 抹除电脑端的偏移 */
+        left: 0 !important;
+        padding: 20px !important;
+      }
+
+      /* 4. 手机端圆饼对齐修正 */
+      .sidebar-toggle, .glass-btn {
+        left: 10px !important; /* 手机边缘留白小一点 */
+        width: 35px !important; /* 圆饼稍微缩小一点，更精致 */
+        height: 35px !important;
+      }
+
+      /* 5. 调整垂直间距 (35px按钮 + 10px间距) */
+      .sidebar-toggle { bottom: 15px !important; }
+      .glass-btn:nth-child(1) { bottom: 60px !important; }
+      .glass-btn:nth-child(2) { bottom: 105px !important; }
+
+      /* 6. 修正标题字号，防止溢出 */
+      section.content h1 {
+        font-size: 1.5rem !important;
+      }
+
+      /* 7. 背景适配 */
+      body {
+        /* 1. 关键：不随页面滚动，且背景大小设为 auto 或 contain 保持原比例 */
+        background-attachment: fixed !important;
+        background-size: auto 100% !important; /* 高度撑满，宽度根据比例自动裁剪 */
+        
+        /* 2. 核心：强制背景图横向居中，纵向也居中 */
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+      }
+
+      /* 针对手机端黑幕容器的透明度微调，让背景中心透出来 */
+      section.content {
+        background: rgba(20, 25, 20, 0.8) !important; /* 稍微调透一点点 */
+        backdrop-filter: blur(8px) !important;
+      }
+    }
+
+    }
+
+
   </style>
 </head>
 <body>
