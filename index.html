@@ -5,11 +5,9 @@
   <title>星露谷 Mod 档案库</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/dark.css">
   
   <style>
-    /* 1. 自定义字体声明 (确保 MyFont.ttf 在 fonts 文件夹内) */
     @font-face {
       font-family: 'MyCustomFont';
       src: url('./fonts/MyFont.ttf') format('truetype');
@@ -18,83 +16,74 @@
     }
 
     :root {
-      /* 核心配色：嫩金绿 */
       --theme-color: #b8d0a0; 
       --base-background: transparent; 
-      
-      /* 侧边栏宽度：已缩窄 */
       --sidebar-width: 220px; 
     }
 
-    /* 2. 页面全局背景与文字柔光 */
     body {
       font-family: 'MyCustomFont', serif !important;
-      background-image: url('1000154095.jpg'); /* 背景图文件名 */
+      background-image: url('1000154095.jpg'); 
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
       background-color: #1a1a1a;
-      
-      /* 全局正文颜色与淡淡的柔光 */
       color: #e0eadd;
       text-shadow: 0 0 5px rgba(125, 163, 122, 0.4);
+      margin: 0;
     }
 
-    /* 3. 侧边栏：磨砂玻璃透明效果 */
+    /* 1. 侧边栏样式 */
     .sidebar {
       width: var(--sidebar-width);
-      background-color: rgba(15, 20, 15, 0.4) !important; /* 透明度 0.4 */
-      backdrop-filter: blur(10px); /* 磨砂模糊 */
+      background-color: rgba(15, 20, 15, 0.4) !important;
+      backdrop-filter: blur(10px);
       border-right: 1px solid rgba(255, 255, 255, 0.1);
-      color: #cbd5c0;
     }
 
-    /* 侧边栏顶部的名字颜色改为古铜金 */
     .app-name {
       color: #d4af37 !important;
       font-weight: bold;
       text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
 
-    /* 4. 修复侧边栏开关按钮的对齐与背景 */
+    /* 2. 修复开关按钮 */
     .sidebar-toggle {
-      background-color: rgba(15, 20, 15, 0.6) !important;
+      background: rgba(15, 20, 15, 0.6) !important;
       backdrop-filter: blur(5px);
       width: 44px;
+      padding: 10px 0;
       left: 0;
       bottom: 0;
-      text-align: center;
-      padding: 10px 0;
-      border-radius: 0 5px 5px 0;
+      position: fixed;
+      z-index: 20;
     }
 
-    /* 5. 内容区：半透明遮罩与自动适配宽度 */
+    /* 3. 【核心修正】内容区域自动适配 */
     section.content {
+      position: relative;
       background: rgba(20, 25, 20, 0.7); 
-      padding: 40px;
+      padding: 30px;
       border-radius: 12px;
-      margin-top: 20px;
-      margin-left: var(--sidebar-width);
-      margin-right: 40px;
+      /* 这里的计算让它在侧边栏打开时自动避开 */
+      margin: 20px 40px 20px calc(var(--sidebar-width) + 40px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: margin-left 0.3s ease;
+      transition: all 0.3s ease; /* 增加平滑过渡动画 */
+      max-width: 1000px; /* 限制最大宽度，防止横屏下撑得太开 */
     }
 
-    /* 当侧边栏关闭时，内容区自动全屏 */
+    /* 当侧边栏关闭时，内容区左右间距恢复对称 */
     body.close section.content {
-      margin-left: 0;
+      margin: 20px auto; /* 居中 */
+      max-width: 900px;
     }
 
-    /* 6. 标题样式：强化金色柔光效果 */
     h1, h2, h3 {
       font-family: 'MyCustomFont', serif !important;
       color: #b8d0a0 !important;
-      text-shadow: 
-        0 0 8px rgba(184, 208, 160, 0.7), 
-        2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+      text-shadow: 0 0 8px rgba(184, 208, 160, 0.7), 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
     }
 
-    /* 搜索框美化 */
     .search input {
       background: rgba(255, 255, 255, 0.05) !important;
       border: 1px solid #4a6348 !important;
@@ -102,13 +91,9 @@
       border-radius: 20px;
     }
 
-    /* NSFW 模糊 */
-    .nsfw-content {
-      filter: blur(20px);
-      transition: filter 0.6s ease;
-    }
-    .nsfw-content:hover {
-      filter: blur(0);
+    /* 隐藏 Docsify 默认的折叠按钮背景，防止重复 */
+    body.close .sidebar-toggle {
+      width: 44px;
     }
   </style>
 </head>
@@ -116,7 +101,7 @@
   <div id="app">正在森林中寻觅档案...</div>
   <script>
     window.$docsify = {
-      name: '档案馆',
+      name: '档案室',
       loadSidebar: true,
       subMaxLevel: 2,
       search: {
