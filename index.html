@@ -13,7 +13,7 @@
       font-family: 'MyCustomFont';
       src: url('./fonts/MyFont.ttf') format('truetype');
     }
-
+9
     :root {
       --theme-color: #b8d0a0; 
       --sidebar-width: 200px;
@@ -201,6 +201,60 @@
       transform: translateX(125px) !important; /* 200px侧边栏对应的偏移量 */
     }
 
+                  /* --- 1. 学院古典模式专属颜色 (只在激活时生效) --- */
+    body.academia-mode {
+      --theme-color: rgba(212, 190, 150, 0.6) !important; /* 暗金 */
+      --accent-glow: rgba(212, 190, 150, 0.2) !important;
+    }
+    
+    /* 2. 学院模式下的内容区色调 (变暖变暗) */
+    body.academia-mode section.content {
+      background: rgba(40, 30, 25, 0.85) !important;
+      backdrop-filter: blur(15px) sepia(10%) !important;
+    }
+
+    /* 3. 强制让图标和文字跟随模式变色 */
+    /* 默认是绿色的，只有加了 .academia-mode 后才会变暗金 */
+    .app-name, .sidebar ul li a, .sidebar-toggle i, .glass-btn i, section.content h1, h2, h3 {
+      color: var(--theme-color, rgba(184, 208, 160, 0.7)) !important;
+      text-shadow: 0 0 10px var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
+      transition: all 0.6s ease !important;
+    }
+
+    /* 4. 按钮边框同步 */
+    .sidebar-toggle, .glass-btn {
+      border: 1px solid var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
+    }
+
+          /* --- 终极强制换色补丁 (只在学院模式激活) --- */
+
+    /* 1. 学院模式下的文字和图标 (强制变暗金) */
+    body.academia-mode .app-name,
+    body.academia-mode .sidebar ul li a,
+    body.academia-mode section.content h1,
+    body.academia-mode section.content h2,
+    body.academia-mode section.content h3,
+    body.academia-mode .sidebar-toggle i,
+    body.academia-mode .glass-btn i {
+      color: rgba(212, 190, 150, 0.6) !important; /* 淡淡的暗金 */
+      text-shadow: 0 0 10px rgba(212, 190, 150, 0.2) !important;
+      transition: all 0.6s ease !important;
+    }
+
+    /* 2. 学院模式下的按钮边框 (同步变暗金) */
+    body.academia-mode .sidebar-toggle,
+    body.academia-mode .glass-btn {
+      border: 1px solid rgba(212, 190, 150, 0.2) !important;
+    }
+
+    /* 3. 学院模式下的内容区色调 (变暖变暗，去绿) */
+    body.academia-mode section.content {
+      background: rgba(40, 30, 25, 0.85) !important; /* 暖褐色调 */
+      backdrop-filter: blur(15px) sepia(20%) !important; /* 增加一点复古金黄滤镜 */
+    }
+
+
+
         /* 1. 强制所有圆饼按钮左对齐并移除默认偏移 */
     .sidebar-toggle, .glass-btn {
       left: 15px !important; /* 统一距离左侧边缘的距离 */
@@ -298,58 +352,6 @@
 
     }
 
-    }
-
-              /* --- 1. 学院古典模式专属颜色 (只在激活时生效) --- */
-    body.academia-mode {
-      --theme-color: rgba(212, 190, 150, 0.6) !important; /* 暗金 */
-      --accent-glow: rgba(212, 190, 150, 0.2) !important;
-    }
-    
-    /* 2. 学院模式下的内容区色调 (变暖变暗) */
-    body.academia-mode section.content {
-      background: rgba(40, 30, 25, 0.85) !important;
-      backdrop-filter: blur(15px) sepia(10%) !important;
-    }
-
-    /* 3. 强制让图标和文字跟随模式变色 */
-    /* 默认是绿色的，只有加了 .academia-mode 后才会变暗金 */
-    .app-name, .sidebar ul li a, .sidebar-toggle i, .glass-btn i, section.content h1, h2, h3 {
-      color: var(--theme-color, rgba(184, 208, 160, 0.7)) !important;
-      text-shadow: 0 0 10px var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
-      transition: all 0.6s ease !important;
-    }
-
-    /* 4. 按钮边框同步 */
-    .sidebar-toggle, .glass-btn {
-      border: 1px solid var(--accent-glow, rgba(184, 208, 160, 0.3)) !important;
-    }
-
-          /* --- 终极强制换色补丁 (只在学院模式激活) --- */
-
-    /* 1. 学院模式下的文字和图标 (强制变暗金) */
-    body.academia-mode .app-name,
-    body.academia-mode .sidebar ul li a,
-    body.academia-mode section.content h1,
-    body.academia-mode section.content h2,
-    body.academia-mode section.content h3,
-    body.academia-mode .sidebar-toggle i,
-    body.academia-mode .glass-btn i {
-      color: rgba(212, 190, 150, 0.6) !important; /* 淡淡的暗金 */
-      text-shadow: 0 0 10px rgba(212, 190, 150, 0.2) !important;
-      transition: all 0.6s ease !important;
-    }
-
-    /* 2. 学院模式下的按钮边框 (同步变暗金) */
-    body.academia-mode .sidebar-toggle,
-    body.academia-mode .glass-btn {
-      border: 1px solid rgba(212, 190, 150, 0.2) !important;
-    }
-
-    /* 3. 学院模式下的内容区色调 (变暖变暗，去绿) */
-    body.academia-mode section.content {
-      background: rgba(40, 30, 25, 0.85) !important; /* 暖褐色调 */
-      backdrop-filter: blur(15px) sepia(20%) !important; /* 增加一点复古金黄滤镜 */
     }
 
 
