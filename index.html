@@ -23,7 +23,7 @@
 
     body {
       font-family: 'MyCustomFont', serif !important;
-      background-image: url('1000154095.jpg'); 
+      background-image: url('1000154096.jpg'); /* 使用了飞鸟这张，你也可以换回 1000154095.jpg */
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
@@ -40,7 +40,6 @@
       background-color: rgba(15, 20, 15, 0.5) !important;
       backdrop-filter: blur(15px);
       border-right: 1px solid rgba(255, 255, 255, 0.1);
-      transition: transform 0.3s ease;
     }
 
     .app-name {
@@ -49,26 +48,27 @@
       text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
 
-    /* 2. 强制显示开关按钮 */
+    /* 2. 左下角悬浮开关按钮 */
     .sidebar-toggle {
-      background: rgba(20, 30, 20, 0.8) !important; /* 加深底色确保看见 */
+      background: rgba(20, 30, 20, 0.8) !important;
       backdrop-filter: blur(5px);
       width: 50px !important;
       height: 50px !important;
-      left: 10px !important;
-      bottom: 10px !important;
-      border-radius: 50% !important; /* 圆形按钮更像移动端操作 */
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      padding: 0 !important;
+      left: 20px !important;
+      bottom: 20px !important;
+      border-radius: 50% !important; 
       display: flex !important;
       align-items: center;
       justify-content: center;
       z-index: 999;
+      border: 1px solid rgba(184, 208, 160, 0.3);
     }
     
     .sidebar-toggle span {
-      background-color: #b8d0a0 !important; /* 杠杠的颜色 */
-      width: 20px !important;
+      background-color: #b8d0a0 !important;
+      width: 22px !important;
+      height: 2px !important;
+      margin: 4px 0 !important;
     }
 
     /* 3. 内容区：自适应居中逻辑 */
@@ -79,43 +79,44 @@
       border-radius: 15px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.6);
       
-      /* 核心：自动外边距 */
-      margin: 40px auto !important; 
+      /* 强制居中 */
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-top: 5vh !important;
       width: 85% !important; 
       max-width: 900px;
       
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    /* 修正 Docsify 默认的布局偏移 */
-    .content {
-      left: 0 !important;
-      right: 0 !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    /* 当侧边栏打开时，给内容区留出左侧空间，但保持它在剩余空间的中心 */
+    /* 侧边栏打开时，整体向右偏移一点，保持视觉平衡 */
     body:not(.close) section.content {
-      transform: translateX(calc(var(--sidebar-width) / 2));
+      transform: translateX(calc(var(--sidebar-width) / 2.5));
+    }
+
+    /* 4. 搜索框美化 + 抹除叉号 */
+    .search input {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid #5a7a58 !important;
+      color: #fff !important;
+      border-radius: 10px;
+      padding-right: 10px !important;
+    }
+
+    /* 抹除叉号核心代码 */
+    .search input::-webkit-search-cancel-button {
+      display: none !important;
+      -webkit-appearance: none;
     }
 
     h1, h2, h3 {
       font-family: 'MyCustomFont', serif !important;
       color: #b8d0a0 !important;
     }
-
-    /* 搜索框美化 */
-    .search input {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid #5a7a58 !important;
-      color: #fff !important;
-      border-radius: 10px;
-    }
   </style>
 </head>
 <body>
-  <div id="app">正在森林中寻觅档案...</div>
+  <div id="app">森林档案录入中...</div>
   <script>
     window.$docsify = {
       name: '档案室',
