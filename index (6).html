@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>星露谷 Mod 档案库</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Docsify -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/dark.css">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+  /* ========================
+     1️⃣ 变量系统
+  ======================== */
+  :root {
+    --theme-color: #b8d0a0;
+    --accent-glow: rgba(184, 208, 160, 0.3);
+
+    --bg-dark: rgba(20, 25, 20, 0.75);
+    --bg-glass: rgba(25, 35, 25, 0.85);
+
+    --btn-size: 40px;
+    --sidebar-width: 230px;
+  }
+
+  body.academia-mode {
+    --theme-color: rgba(212, 190, 150, 0.7);
+    --accent-glow: rgba(212, 190, 150, 0.3);
+    --bg-dark: rgba(35, 25, 20, 0.6);
+  }
+
+  /* ========================
+     2️⃣ 基础
+  ======================== */
+  body {
+    margin: 0;
+    font-family: serif;
+    background: url('1000154104.jpg') center/cover fixed;
+    transition: background 0.8s ease;
+  }
+
+  /* ========================
+     3️⃣ 侧边栏
+  ======================== */
+  .sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(15, 20, 15, 0.4);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 15px 12px;
+  }
+
+  /* ========================
+     4️⃣ 内容区
+  ======================== */
+  section.content {
+    background: var(--bg-dark);
+    padding: 40px;
+    border-radius: 15px;
+    margin: 6vh auto;
+    width: 85%;
+    max-width: 900px;
+    transition: 0.4s;
+  }
+
+  body:not(.close) section.content {
+    transform: translateX(125px);
+  }
+
+  /* ========================
+     5️⃣ 文字风格
+  ======================== */
+  .app-name,
+  .sidebar a,
+  h1, h2, h3,
+  .glass-btn i {
+    color: var(--theme-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+    transition: 0.5s;
+  }
+
+  /* ========================
+     6️⃣ 图片
+  ======================== */
+  section.content img {
+    filter: grayscale(40%) brightness(85%);
+    border-radius: 8px;
+    transition: 0.4s;
+  }
+  section.content img:hover {
+    filter: none;
+    transform: scale(1.02);
+  }
+
+  /* ========================
+     7️⃣ 搜索框
+  ======================== */
+  .search input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(184,208,160,0.2);
+    border-radius: 20px;
+    padding: 8px 12px;
+    color: white;
+  }
+
+  .search input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  /* ========================
+     8️⃣ 按钮
+  ======================== */
+  .btn {
+    position: fixed;
+    left: 15px;
+    width: var(--btn-size);
+    height: var(--btn-size);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: var(--bg-glass);
+    border: 1px solid var(--accent-glow);
+
+    box-shadow:
+      0 4px 15px rgba(0,0,0,0.5),
+      0 0 10px var(--accent-glow);
+
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* 按钮位置 */
+  .btn-toggle { bottom: 15px; }
+  .btn-bg     { bottom: 67px; }
+  .btn-theme  { bottom: 119px; }
+
+  /* ========================
+     9️⃣ 手机适配
+  ======================== */
+  @media (max-width: 768px) {
+    .sidebar { left: -230px; }
+
+    body.close .sidebar {
+      left: 0;
+      width: 200px;
+    }
+
+    section.content {
+      width: 95%;
+      margin: 10vh auto;
+      transform: none;
+      padding: 20px;
+    }
+
+    .btn {
+      left: 10px;
+      width: 35px;
+      height: 35px;
+    }
+
+    .btn-toggle { bottom: 15px; }
+    .btn-bg     { bottom: 60px; }
+    .btn-theme  { bottom: 105px; }
+  }
+
+  </style>
+</head>
+
+<body>
+
+<div id="app">正在编织森林幻想...</div>
+
+<!-- 按钮 -->
+<div class="btn btn-bg" data-role="bg-btn"></div>
+<div class="btn btn-theme" data-role="theme-btn"></div>
+
+<script>
+window.$docsify = {
+  name: '档案室',
+  loadSidebar: true,
+  subMaxLevel: 2,
+  search: { placeholder: '寻找遗忘的记录...', noData: '无此记载' }
+}
+
+/* ========================
+   数据
+======================== */
+const collections = {
+  default: {
+    bgs: ['1000154095.jpg', '1000154096.jpg'],
+    icon: 'fa-leaf'
+  },
+  academia: {
+    bgs: ['1000154119.jpg', '1000154120.jpg'],
+    icon: 'fa-book'
+  }
+};
+
+let isAcademia = false;
+let bgIndex = 0;
+
+/* ========================
+   DOM
+======================== */
+const bgBtn = document.querySelector('[data-role="bg-btn"]');
+const themeBtn = document.querySelector('[data-role="theme-btn"]');
+
+/* ========================
+   功能
+======================== */
+function updateUI() {
+  const mode = isAcademia ? 'academia' : 'default';
+
+  bgBtn.innerHTML = `<i class="fas ${collections[mode].icon}"></i>`;
+  themeBtn.innerHTML = `<i class="fas fa-book-open"></i>`;
+}
+
+function toggleBG() {
+  bgIndex = (bgIndex + 1) % 2;
+  const mode = isAcademia ? 'academia' : 'default';
+  document.body.style.backgroundImage =
+    `url('${collections[mode].bgs[bgIndex]}')`;
+}
+
+function toggleTheme() {
+  is
