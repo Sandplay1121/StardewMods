@@ -6,75 +6,114 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/dark.css">
   
   <style>
+    /* 1. 自定义字体声明 (请确保 MyFont.ttf 在 fonts 文件夹内) */
+    @font-face {
+      font-family: 'MyCustomFont';
+      src: url('./fonts/MyFont.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     :root {
-      /* 定义你的核心色彩：复古紫与古铜金 */
-      --theme-color: #9d71e2; 
-      --base-background: #1a1a1a; /* 深邃黑背景 */
-      --sidebar-background: #151515; /* 侧边栏稍深 */
+      /* 核心配色：森林绿 + 嫩芽绿 */
+      --theme-color: #7da37a; 
+      --base-background: transparent; 
+      --sidebar-background: rgba(15, 20, 15, 0.85); /* 侧边栏半透明深色 */
+      
+      /* 侧边栏宽度：已调窄 */
+      --sidebar-width: 200px; 
     }
 
-    /* 全局字体自定义 */
+    /* 2. 页面全局背景与文字柔光 */
     body {
-      font-family: 'Lora', 'Georgia', serif;
-      background-color: var(--base-background);
-      font-size: 16px;
+      font-family: 'MyCustomFont', serif !important;
+      background-image: url('1000154095.jpg'); /* 如果想换成另一张，改为 1000154096.jpg */
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      background-color: #1a1a1a;
+      
+      /* 全局正文颜色与淡淡的柔光 */
+      color: #e0eadd;
+      text-shadow: 
+        0 0 5px rgba(125, 163, 122, 0.4),
+        0 0 10px rgba(125, 163, 122, 0.2);
     }
 
-    /* 侧边栏样式：更有“档案感” */
-    .sidebar {
-      border-right: 1px solid #333;
-      color: #bbb;
+    /* 3. 内容区样式：半透明“薄纱”遮罩 */
+    section.content {
+      background: rgba(20, 25, 20, 0.75); 
+      padding: 40px;
+      border-radius: 12px;
+      margin-top: 20px;
+      margin-left: calc(var(--sidebar-width) + 30px);
+      margin-right: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
 
-    /* 标题样式：增加一点哥特气质 */
+    /* 4. 标题样式：强化金色柔光效果 */
     h1, h2, h3 {
-      font-weight: 700;
-      color: #d4af37 !important; /* 古铜金色标题 */
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+      font-family: 'MyCustomFont', serif !important;
+      color: #b8d0a0 !important;
+      text-shadow: 
+        0 0 8px rgba(184, 208, 160, 0.7), 
+        2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+      transition: text-shadow 0.4s ease;
     }
 
-    /* 修改搜索框样式 */
+    h1:hover, h2:hover, h3:hover {
+      text-shadow: 
+        0 0 15px rgba(184, 208, 160, 0.9), 
+        0 0 25px rgba(184, 208, 160, 0.4) !important;
+    }
+
+    /* 侧边栏细节调整 */
+    .sidebar {
+      width: var(--sidebar-width);
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-nav ul li a {
+      font-size: 15px;
+      color: #cbd5c0 !important;
+    }
+
+    /* 搜索框美化 */
     .search input {
-      background: #222 !important;
-      border: 1px solid #444 !important;
-      color: #eee !important;
-      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid #4a6348 !important;
+      color: #fff !important;
+      border-radius: 20px;
     }
 
-    /* 链接样式 */
-    section.content a {
-      color: #9d71e2;
-      text-decoration: underline;
+    /* 图片点击放大后的背景 */
+    .medium-zoom-overlay {
+      background: rgba(0, 0, 0, 0.9) !important;
     }
 
-    /* 这里的代码是给 NSFW 内容准备的模糊效果 */
+    /* NSFW 模糊 */
     .nsfw-content {
-      filter: blur(15px);
-      transition: filter 0.5s;
-      cursor: help;
+      filter: blur(20px);
+      transition: filter 0.6s ease;
     }
-    .nsfw-content:active, .nsfw-content:hover {
+    .nsfw-content:hover {
       filter: blur(0);
     }
   </style>
 </head>
 <body>
-  <div id="app">正在翻阅古籍...</div>
+  <div id="app">正在森林中寻觅档案...</div>
   <script>
     window.$docsify = {
-      name: '🌙 Mod 整理案',
-      repo: '',
+      name: '🌿 森林档案室',
       loadSidebar: true,
       subMaxLevel: 2,
-      coverpage: false, // 如果你想做个大封面，可以改成 true
       search: {
-        placeholder: '寻找遗失的 Mod...',
-        noData: '未找到相关记载',
+        placeholder: '搜寻遗失的 Mod...',
+        noData: '林深处查无此内容',
         depth: 6
       }
     }
