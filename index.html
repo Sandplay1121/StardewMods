@@ -218,40 +218,6 @@
     display: block !important;
   }
 
-      /* --- 1. 找回消失的三条杠 --- */
-  .sidebar-toggle span {
-    display: block !important; /* 确保显示 */
-    background-color: var(--theme-color, #b8d0a0) !important; /* 颜色跟随主题 */
-    box-shadow: 0 0 8px var(--accent-glow) !important; /* 发光效果 */
-    height: 2px !important;    /* 线条厚度 */
-    width: 22px !important;    /* 线条长度 */
-    margin: 4px auto !important; /* 线条间距 */
-    transition: all 0.5s ease;
-  }
-
-  /* --- 2. 隐藏多出来的矢量图标 (如果它干扰了三条杠) --- */
-  .sidebar-toggle i {
-    display: none !important; 
-  }
-
-  /* --- 3. 再次强化去除标题下的实色横条 --- */
-  section.content h1, 
-  section.content h2, 
-  section.content h3 {
-    border-bottom: none !important;
-    box-shadow: none !important;
-  }
-
-  /* --- 4. 确保矢量图标和柔光依然存在 --- */
-  .btn i {
-    font-family: "Font Awesome 6 Free" !important;
-    font-weight: 900 !important;
-    color: var(--theme-color) !important;
-    text-shadow: 0 0 12px var(--accent-glow) !important;
-  }
-
-
-
   </style>
 </head>
 
