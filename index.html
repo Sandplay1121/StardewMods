@@ -153,6 +153,38 @@ section.content {
   opacity: 0.6;
 }
 
+    /* 1. 侧边栏菜单项的发光效果 */
+.sidebar ul li a {
+  padding: 10px 15px !important;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+/* 鼠标悬停在侧边栏菜单时，更有仪式感 */
+.sidebar ul li a:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* 2. 为未来的一览页预留的卡片样式 */
+.mod-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--main-bg) !important;
+  border: 1px solid var(--accent-glow);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.mod-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+
 
 
 
