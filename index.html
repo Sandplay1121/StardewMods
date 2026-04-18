@@ -77,7 +77,7 @@
     /* --- 4. 正文容器：通透黑幕 --- */
     section.content {
       background: var(--main-bg) !important;
-      backdrop-filter: blur(15px); /* 增加模糊度提升高级感 */
+      backdrop-filter: blur(5px); /* 增加模糊度提升高级感 */
       padding: 40px !important;
       border-radius: 15px;
       margin: 6vh auto !important;
@@ -112,6 +112,47 @@
     }
     .glass-btn:nth-child(1) { bottom: 65px; }
     .glass-btn:nth-child(2) { bottom: 115px; }
+
+    /* --- 补丁 A：侧边栏宽度瘦身 --- */
+:root {
+  --sidebar-width: 200px !important; /* 强制缩小宽度，建议 200px 左右比较精致 */
+}
+
+.sidebar {
+  width: var(--sidebar-width) !important;
+}
+
+/* 适配移动端或展开状态，确保内容区不被遮挡 */
+section.content {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+/* --- 补丁 B：搜索框圆润化 --- */
+.search {
+  padding: 10px 15px !important; /* 稍微调整搜索框间距 */
+}
+
+.search input {
+  border-radius: 20px !important;      /* 👈 胶囊型圆角 */
+  background: rgba(255, 255, 255, 0.1) !important; /* 半透明背景 */
+  border: 1px solid var(--accent-glow) !important; /* 描边颜色跟随主题发光色 */
+  color: var(--theme-color) !important;
+  padding: 8px 15px !important;
+  transition: all 0.3s ease;
+}
+
+.search input:focus {
+  box-shadow: 0 0 10px var(--accent-glow) !important; /* 聚焦时发光 */
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 搜索框清除按钮（那个小叉号） */
+.search .clear-button {
+  color: var(--theme-color) !important;
+  opacity: 0.6;
+}
+
 
 
 
